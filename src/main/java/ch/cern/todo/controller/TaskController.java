@@ -13,14 +13,8 @@ public class TaskController {
 
     private final TaskService taskService;
 
-
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
-    }
-
-    @PostMapping
-    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
-        return ResponseEntity.ok(taskService.createTask(taskDTO));
     }
 
     @GetMapping
@@ -31,5 +25,20 @@ public class TaskController {
     @GetMapping(":id")
     public ResponseEntity<TaskDTO> getTask(@PathVariable Long id) {
         return ResponseEntity.ok(taskService.getTask(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
+        return ResponseEntity.ok(taskService.createTask(taskDTO));
+    }
+
+    @PutMapping(":id")
+    public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
+        return ResponseEntity.ok(taskService.updateTask(id, taskDTO));
+    }
+
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.noContent().build();
     }
 }
