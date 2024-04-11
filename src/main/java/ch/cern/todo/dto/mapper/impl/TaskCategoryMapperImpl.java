@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 public class TaskCategoryMapperImpl implements TaskCategoryMapper {
     @Override
     public TaskCategory toTaskCategory(TaskCategoryDTO taskCategoryDTO) {
+        if (taskCategoryDTO == null) {
+            return null;
+        }
         TaskCategory taskCategory = new TaskCategory();
         taskCategory.setId(taskCategoryDTO.getId());
         taskCategory.setName(taskCategoryDTO.getName());
@@ -18,6 +21,9 @@ public class TaskCategoryMapperImpl implements TaskCategoryMapper {
 
     @Override
     public TaskCategoryDTO toTaskCategoryDTO(TaskCategory taskCategory) {
+        if (taskCategory == null) {
+            return null;
+        }
         TaskCategoryDTO taskCategoryDTO = new TaskCategoryDTO();
         taskCategoryDTO.setId(taskCategory.getId());
         taskCategoryDTO.setName(taskCategory.getName());

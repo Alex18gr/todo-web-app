@@ -19,6 +19,9 @@ public class TaskMapperImpl implements TaskMapper {
 
     @Override
     public Task toTask(TaskDTO taskDTO) {
+        if (taskDTO == null) {
+            return null;
+        }
         Task task = new Task();
         task.setId(taskDTO.getId());
         task.setName(taskDTO.getName());
@@ -30,6 +33,9 @@ public class TaskMapperImpl implements TaskMapper {
 
     @Override
     public TaskDTO toTaskDTO(Task task) {
+        if (task == null) {
+            return null;
+        }
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setId(task.getId());
         taskDTO.setName(task.getName());
@@ -41,11 +47,17 @@ public class TaskMapperImpl implements TaskMapper {
 
     @Override
     public List<Task> toTaskList(List<TaskDTO> taskDTOList) {
+        if (taskDTOList == null) {
+            return null;
+        }
         return taskDTOList.stream().map(this::toTask).toList();
     }
 
     @Override
     public List<TaskDTO> toTaskDTOList(List<Task> taskList) {
+        if (taskList == null) {
+            return null;
+        }
         return taskList.stream().map(this::toTaskDTO).toList();
     }
 }
