@@ -18,13 +18,13 @@ public class TaskCategoryController {
         this.taskCategoryService = taskCategoryService;
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<TaskCategoryDTO>> getTaskCategories() {
-//        return ResponseEntity.ok(taskCategoryService.getTaskCategories());
-//    }
-
     @GetMapping
-    public ResponseEntity<TaskCategoryDTO> getTaskCategoryByName(@RequestParam String name) {
+    public ResponseEntity<List<TaskCategoryDTO>> getTaskCategories() {
+        return ResponseEntity.ok(taskCategoryService.getTaskCategories());
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<TaskCategoryDTO> getTaskCategoryByName(@PathVariable String name) {
         return ResponseEntity.ok(taskCategoryService.getTaskCategoryByName(name));
     }
 
