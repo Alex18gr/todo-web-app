@@ -22,7 +22,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.getTasks(pageable));
     }
 
-    @GetMapping(":id")
+    @GetMapping("{id}")
     public ResponseEntity<TaskDTO> getTask(@PathVariable Long id) {
         return ResponseEntity.ok(taskService.getTask(id));
     }
@@ -32,12 +32,12 @@ public class TaskController {
         return ResponseEntity.ok(taskService.createTask(taskDTO));
     }
 
-    @PutMapping(":id")
+    @PutMapping("{id}")
     public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
         return ResponseEntity.ok(taskService.updateTask(id, taskDTO));
     }
 
-    @DeleteMapping(":id")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();

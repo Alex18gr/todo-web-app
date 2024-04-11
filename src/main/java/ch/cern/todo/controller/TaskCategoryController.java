@@ -18,17 +18,17 @@ public class TaskCategoryController {
         this.taskCategoryService = taskCategoryService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<TaskCategoryDTO>> getTaskCategories() {
-        return ResponseEntity.ok(taskCategoryService.getTaskCategories());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<TaskCategoryDTO>> getTaskCategories() {
+//        return ResponseEntity.ok(taskCategoryService.getTaskCategories());
+//    }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<TaskCategoryDTO> getTaskCategoryByName(@RequestParam String name) {
         return ResponseEntity.ok(taskCategoryService.getTaskCategoryByName(name));
     }
 
-    @GetMapping(":id")
+    @GetMapping("{id}")
     public ResponseEntity<TaskCategoryDTO> getTaskCategoryById(@PathVariable long id) {
         return ResponseEntity.ok(taskCategoryService.getTaskCategory(id));
     }
@@ -38,12 +38,12 @@ public class TaskCategoryController {
         return ResponseEntity.ok(taskCategoryService.createTaskCategory(taskCategoryDTO));
     }
 
-    @PutMapping(":id")
+    @PutMapping("{id}")
     public ResponseEntity<TaskCategoryDTO> updateTaskCategory(@PathVariable long id, @RequestBody TaskCategoryDTO taskCategoryDTO) {
         return ResponseEntity.ok(taskCategoryService.updateTaskCategory(id, taskCategoryDTO));
     }
 
-    @DeleteMapping(":id")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteTaskCategory(@PathVariable long id) {
         taskCategoryService.deleteTaskCategory(id);
         return ResponseEntity.noContent().build();
