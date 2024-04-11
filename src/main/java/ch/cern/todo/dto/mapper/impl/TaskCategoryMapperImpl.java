@@ -5,6 +5,8 @@ import ch.cern.todo.dto.mapper.TaskCategoryMapper;
 import ch.cern.todo.entity.TaskCategory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class TaskCategoryMapperImpl implements TaskCategoryMapper {
     @Override
@@ -29,5 +31,21 @@ public class TaskCategoryMapperImpl implements TaskCategoryMapper {
         taskCategoryDTO.setName(taskCategory.getName());
         taskCategoryDTO.setDescription(taskCategory.getDescription());
         return taskCategoryDTO;
+    }
+
+    @Override
+    public List<TaskCategoryDTO> toTaskCategoryDTOList(List<TaskCategory> taskCategories) {
+        if (taskCategories == null) {
+            return null;
+        }
+        return taskCategories.stream().map(this::toTaskCategoryDTO).toList();
+    }
+
+    @Override
+    public List<TaskCategory> toTaskCategoryList(List<TaskCategoryDTO> taskCategoriesDTOList) {
+        if (taskCategoriesDTOList == null) {
+            return null;
+        }
+        return taskCategoriesDTOList.stream().map(this::toTaskCategory).toList();
     }
 }

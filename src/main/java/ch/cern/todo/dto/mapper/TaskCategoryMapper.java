@@ -11,4 +11,8 @@ public interface TaskCategoryMapper {
 
     TaskCategoryDTO toTaskCategoryDTO(TaskCategory taskCategory);
 
+    List<TaskCategoryDTO> toTaskCategoryDTOList(List<TaskCategory> taskCategories);
+
+    List<TaskCategory> toTaskCategoryList(List<TaskCategoryDTO> taskCategoriesDTOList);
+
 }
