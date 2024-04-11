@@ -4,6 +4,7 @@ import ch.cern.todo.dto.TaskDTO;
 import ch.cern.todo.dto.mapper.TaskMapper;
 import ch.cern.todo.entity.Task;
 import ch.cern.todo.repository.TaskRepository;
+import ch.cern.todo.service.TaskCategoryService;
 import ch.cern.todo.service.TaskService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,16 +15,20 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final TaskCategoryService taskCategoryService;
 
-    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper) {
+    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper, TaskCategoryService taskCategoryService) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
+        this.taskCategoryService = taskCategoryService;
     }
 
     private Task createNewTask(TaskDTO taskDTO) {
+        Task saveTask = taskMapper.toTask(taskDTO);
         // because we are creating task, we need to set id to null
-        taskDTO.setId(null);
-        return taskRepository.save(taskMapper.toTask(taskDTO));
+        saveTask.setId(null);
+        saveTask.setCategory(taskCategoryService.createOrGetTaskCategory(taskDTO.getCategory()));
+        return taskRepository.save(saveTask);
     }
 
     @Override
@@ -47,6 +52,7 @@ public class TaskServiceImpl implements TaskService {
                 taskRepository.findById(id).map(task -> {
                     task.setName(taskDTO.getName());
                     task.setDescription(taskDTO.getDescription());
+                    task.setCategory(taskCategoryService.createOrGetTaskCategory(taskDTO.getCategory()));
                     return taskRepository.save(task);
                 }).orElseGet(() -> createNewTask(taskDTO))
         );
