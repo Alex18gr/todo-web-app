@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TASK_CATEGORIES", uniqueConstraints = {
-        @UniqueConstraint(name = "CATEGORY_NAME_UK", columnNames = {"CATEGORY_DESCRIPTION"})
+        @UniqueConstraint(name = "CATEGORY_NAME_UK", columnNames = {"CATEGORY_NAME"})
 })
 public class TaskCategory {
 
