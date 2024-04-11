@@ -10,9 +10,9 @@ public class TaskCategoryMapperImpl implements TaskCategoryMapper {
     @Override
     public TaskCategory toTaskCategory(TaskCategoryDTO taskCategoryDTO) {
         TaskCategory taskCategory = new TaskCategory();
-        taskCategory.setId(taskCategory.getId());
-        taskCategory.setName(taskCategory.getName());
-        taskCategory.setDescription(taskCategory.getDescription());
+        taskCategory.setId(taskCategoryDTO.getId());
+        taskCategory.setName(taskCategoryDTO.getName());
+        taskCategory.setDescription(taskCategoryDTO.getDescription());
         return taskCategory;
     }
 
