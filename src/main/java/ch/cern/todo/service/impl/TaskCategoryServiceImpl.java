@@ -7,6 +7,8 @@ import ch.cern.todo.repository.TaskCategoryRepository;
 import ch.cern.todo.service.TaskCategoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskCategoryServiceImpl implements TaskCategoryService {
 
@@ -18,6 +20,11 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
         this.taskCategoryMapper = taskCategoryMapper;
     }
 
+
+    @Override
+    public List<TaskCategoryDTO> getTaskCategories() {
+        return taskCategoryRepository.findAll().stream().map(taskCategoryMapper::toTaskCategoryDTO).toList();
+    }
 
     @Override
     public TaskCategoryDTO getTaskCategory(Long id) {
@@ -56,5 +63,10 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
     @Override
     public TaskCategory createOrGetTaskCategory(TaskCategoryDTO taskCategoryDTO) {
         return taskCategoryRepository.findByName(taskCategoryDTO.getName()).orElseGet(() -> createNewTaskCategory(taskCategoryDTO));
+    }
+
+    @Override
+    public void deleteTaskCategory(Long id) {
+        taskCategoryRepository.deleteById(id);
     }
 }
