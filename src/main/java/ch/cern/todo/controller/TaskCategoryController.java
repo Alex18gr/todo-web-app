@@ -49,4 +49,9 @@ public class TaskCategoryController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("{id}/has-tasks")
+    public ResponseEntity<Boolean> hasTasks(@PathVariable long id) {
+        return ResponseEntity.ok(taskCategoryService.checkIfTaskCategoryHasTasks(id));
+    }
+
 }

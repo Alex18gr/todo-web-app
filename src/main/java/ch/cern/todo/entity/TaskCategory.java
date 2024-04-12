@@ -3,6 +3,8 @@ package ch.cern.todo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 @Entity
 @Table(name = "TASK_CATEGORIES", uniqueConstraints = {
         @UniqueConstraint(name = "CATEGORY_NAME_UK", columnNames = {"CATEGORY_NAME"})
@@ -20,6 +22,9 @@ public class TaskCategory {
 
     @Column(name = "CATEGORY_DESCRIPTION")
     private String description;
+
+    @OneToMany(mappedBy = "category")
+    private List<Task> tasks;
 
     public Long getId() {
         return id;
@@ -43,5 +48,13 @@ public class TaskCategory {
 
     public void setDescription(String categoryDescription) {
         this.description = categoryDescription;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

@@ -21,6 +21,8 @@ public interface TaskCategoryService {
 
     TaskCategory createOrGetTaskCategory(TaskCategoryDTO taskCategoryDTO);
 
+    boolean checkIfTaskCategoryHasTasks(Long id);
+
     void deleteTaskCategory(Long id);
 
 }

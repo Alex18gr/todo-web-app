@@ -3,7 +3,9 @@ package ch.cern.todo.service.impl;
 import ch.cern.todo.dto.TaskCategoryDTO;
 import ch.cern.todo.dto.mapper.TaskCategoryMapper;
 import ch.cern.todo.entity.TaskCategory;
-import ch.cern.todo.exception.TaskCategoryAlreadyExists;
+import ch.cern.todo.exception.RecordNotFoundException;
+import ch.cern.todo.exception.TaskCategoryAlreadyExistsException;
+import ch.cern.todo.exception.TaskCategoryHasAssociationsException;
 import ch.cern.todo.repository.TaskCategoryRepository;
 import ch.cern.todo.service.TaskCategoryService;
 import org.springframework.stereotype.Service;
@@ -39,16 +41,18 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 
     @Override
     public TaskCategoryDTO createTaskCategory(TaskCategoryDTO taskCategoryDTO) {
+        // check if the name of the task already exists
         if (taskCategoryRepository.existsByName(taskCategoryDTO.getName())) {
-            throw new TaskCategoryAlreadyExists(taskCategoryDTO.getName());
+            throw new TaskCategoryAlreadyExistsException(taskCategoryDTO.getName());
         }
         return taskCategoryMapper.toTaskCategoryDTO(createNewTaskCategory(taskCategoryDTO));
     }
 
     @Override
     public TaskCategoryDTO updateTaskCategory(Long id, TaskCategoryDTO taskCategoryDTO) {
+        // check if the name of the update task already exists
         if (taskCategoryRepository.existsByName(taskCategoryDTO.getName())) {
-            throw new TaskCategoryAlreadyExists(taskCategoryDTO.getName());
+            throw new TaskCategoryAlreadyExistsException(taskCategoryDTO.getName());
         }
         return taskCategoryMapper.toTaskCategoryDTO(
                 taskCategoryRepository.findById(id).map(taskCategory -> {
@@ -72,8 +76,26 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
     }
 
     @Override
-    public void deleteTaskCategory(Long id) {
-        taskCategoryRepository.deleteById(id);
+    public boolean checkIfTaskCategoryHasTasks(Long id) {
+        if (!taskCategoryRepository.existsById(id)) {
+            throw new RecordNotFoundException(id, "Task category");
+        }
+        return taskCategoryRepository.hasTasksById(id);
+    }
+
+    @Override
+    public void deleteTaskCategory(final Long id) {
+        // we check if the task category exists with the given id
+        TaskCategory category = taskCategoryRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id, "TaskCategory"));
+
+        // we check if the category has any tasks related to it, because it that case, we will have a referential
+        // integrity constraint violation
+        if (taskCategoryRepository.hasTasksById(id)) {
+            throw new TaskCategoryHasAssociationsException(category.getName());
+        }
+
+        taskCategoryRepository.delete(category);
     }
 
 }
