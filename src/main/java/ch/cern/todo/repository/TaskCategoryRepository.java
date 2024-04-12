@@ -9,4 +9,6 @@ public interface TaskCategoryRepository extends JpaRepository<TaskCategory, Long
 
     Optional<TaskCategory> findByName(String name);
 
+    boolean existsByName(String name);
+
 }

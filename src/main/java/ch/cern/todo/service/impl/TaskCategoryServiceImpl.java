@@ -3,6 +3,7 @@ package ch.cern.todo.service.impl;
 import ch.cern.todo.dto.TaskCategoryDTO;
 import ch.cern.todo.dto.mapper.TaskCategoryMapper;
 import ch.cern.todo.entity.TaskCategory;
+import ch.cern.todo.exception.TaskCategoryAlreadyExists;
 import ch.cern.todo.repository.TaskCategoryRepository;
 import ch.cern.todo.service.TaskCategoryService;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,6 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 
     @Override
     public TaskCategoryDTO getTaskCategory(Long id) {
-        // TODO: Add Exceptions on not found
         return taskCategoryMapper.toTaskCategoryDTO(taskCategoryRepository.findById(id).orElse(null));
     }
 
@@ -39,11 +39,17 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 
     @Override
     public TaskCategoryDTO createTaskCategory(TaskCategoryDTO taskCategoryDTO) {
+        if (taskCategoryRepository.existsByName(taskCategoryDTO.getName())) {
+            throw new TaskCategoryAlreadyExists(taskCategoryDTO.getName());
+        }
         return taskCategoryMapper.toTaskCategoryDTO(createNewTaskCategory(taskCategoryDTO));
     }
 
     @Override
     public TaskCategoryDTO updateTaskCategory(Long id, TaskCategoryDTO taskCategoryDTO) {
+        if (taskCategoryRepository.existsByName(taskCategoryDTO.getName())) {
+            throw new TaskCategoryAlreadyExists(taskCategoryDTO.getName());
+        }
         return taskCategoryMapper.toTaskCategoryDTO(
                 taskCategoryRepository.findById(id).map(taskCategory -> {
                     taskCategory.setName(taskCategoryDTO.getName());
@@ -69,4 +75,5 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
     public void deleteTaskCategory(Long id) {
         taskCategoryRepository.deleteById(id);
     }
+
 }

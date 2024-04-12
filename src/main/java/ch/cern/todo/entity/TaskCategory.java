@@ -1,6 +1,7 @@
 package ch.cern.todo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TASK_CATEGORIES", uniqueConstraints = {
@@ -14,6 +15,7 @@ public class TaskCategory {
     private Long id;
 
     @Column(name = "CATEGORY_NAME")
+    @NotNull
     private String name;
 
     @Column(name = "CATEGORY_DESCRIPTION")

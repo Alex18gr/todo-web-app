@@ -1,6 +1,7 @@
 package ch.cern.todo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -14,15 +15,18 @@ public class Task {
     private Long id;
 
     @Column(name = "TASK_NAME")
+    @NotNull
     private String name;
 
     @Column(name = "TASK_DESCRIPTION")
     private String description;
 
     @Column(name = "DEADLINE", columnDefinition = "TIMESTAMP")
+    @NotNull
     private LocalDateTime deadline;
 
     @ManyToOne(optional = false)
+    @NotNull
     @JoinColumn(name = "CATEGORY_ID", columnDefinition = "NUMBER", foreignKey = @ForeignKey(name = "TASK_CATEGORIES_FK"))
     private TaskCategory category;
 
