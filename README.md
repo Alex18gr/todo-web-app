@@ -1,9 +1,11 @@
-This is a skeleton of Spring Boot application which should be used as a start point to create a working one.
-The goal of this task is to create simple web application which allows users to create TODOs. In addition, the application should expose public REST API in order to allow to manipulate data programmatically.
+# Demo TODO Application
 
-Below you may find a proposition of the DB model:
+This is demo TODO application based on Spring technologies. The main entity schema is described bellow. The main implemented functionalities include:
+
+- Main Entity and Repository functionalities
+- CRUD
+- Error handling
+- Pagination on large list requests
+- RESTful design
 
 ![DB model](DBModel.png)
-
-To complete the exercices please implement all missing classes and functonalites in order to be able to store and retrieve information about tasks and their categories.
-Once you are ready, please send it to me (ie link to your git repository) before  our interview.
