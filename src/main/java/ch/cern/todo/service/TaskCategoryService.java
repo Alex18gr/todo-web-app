@@ -2,6 +2,8 @@ package ch.cern.todo.service;
 
 import ch.cern.todo.dto.TaskCategoryDTO;
 import ch.cern.todo.entity.TaskCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
 @Service
 public interface TaskCategoryService {
 
-    List<TaskCategoryDTO> getTaskCategories();
+    Page<TaskCategoryDTO> getTaskCategories(Pageable pageable);
 
     TaskCategoryDTO getTaskCategory(Long id);
 
