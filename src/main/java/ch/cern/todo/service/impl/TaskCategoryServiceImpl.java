@@ -8,6 +8,7 @@ import ch.cern.todo.exception.TaskCategoryAlreadyExistsException;
 import ch.cern.todo.exception.TaskCategoryHasAssociationsException;
 import ch.cern.todo.repository.TaskCategoryRepository;
 import ch.cern.todo.service.TaskCategoryService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -96,6 +97,13 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
         }
 
         taskCategoryRepository.delete(category);
+    }
+
+    @Override
+    public List<TaskCategoryDTO> searchForTaskCategoriesByCategoryName(String categoryName) {
+        return taskCategoryMapper.toTaskCategoryDTOList(
+                taskCategoryRepository.findAllByNameLimit(categoryName, Pageable.ofSize(12))
+        );
     }
 
 }

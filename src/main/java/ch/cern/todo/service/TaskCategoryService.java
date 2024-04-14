@@ -25,4 +25,6 @@ public interface TaskCategoryService {
 
     void deleteTaskCategory(Long id);
 
+    List<TaskCategoryDTO> searchForTaskCategoriesByCategoryName(String categoryName);
+
 }

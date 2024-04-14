@@ -3,6 +3,7 @@ package ch.cern.todo.service.impl;
 import ch.cern.todo.dto.TaskDTO;
 import ch.cern.todo.dto.mapper.TaskMapper;
 import ch.cern.todo.entity.Task;
+import ch.cern.todo.exception.RecordNotFoundException;
 import ch.cern.todo.repository.TaskRepository;
 import ch.cern.todo.service.TaskCategoryService;
 import ch.cern.todo.service.TaskService;
@@ -59,8 +60,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTask(Long id) {
-        taskRepository.deleteById(id);
+    public void deleteTask(final Long id) {
+        Task task = taskRepository.findById(id)
+                        .orElseThrow(() -> new RecordNotFoundException(id, "Task"));
+        taskRepository.delete(task);
     }
 
 }

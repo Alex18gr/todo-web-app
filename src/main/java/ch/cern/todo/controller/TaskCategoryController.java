@@ -49,7 +49,12 @@ public class TaskCategoryController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("{id}/has-tasks")
+    @GetMapping("/search-name")
+    public ResponseEntity<List<TaskCategoryDTO>> searchTaskCategoryByName(@RequestParam String name) {
+        return ResponseEntity.ok(taskCategoryService.searchForTaskCategoriesByCategoryName(name));
+    }
+
+    @GetMapping("/{id}/has-tasks")
     public ResponseEntity<Boolean> hasTasks(@PathVariable long id) {
         return ResponseEntity.ok(taskCategoryService.checkIfTaskCategoryHasTasks(id));
     }
