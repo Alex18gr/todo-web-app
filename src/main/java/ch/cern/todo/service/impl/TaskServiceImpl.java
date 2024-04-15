@@ -54,6 +54,7 @@ public class TaskServiceImpl implements TaskService {
                     task.setName(taskDTO.getName());
                     task.setDescription(taskDTO.getDescription());
                     task.setCategory(taskCategoryService.createOrGetTaskCategory(taskDTO.getCategory()));
+                    task.setDeadline(taskDTO.getDeadline());
                     return taskRepository.save(task);
                 }).orElseGet(() -> createNewTask(taskDTO))
         );
