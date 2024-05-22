@@ -14,6 +14,8 @@ public interface TaskCategoryRepository extends JpaRepository<TaskCategory, Long
 
     Optional<TaskCategory> findByName(String name);
 
+    boolean existsByNameAndIdNot(String name, Long id);
+
     boolean existsByName(String name);
 
     @Query("select case when tc.tasks is empty then false else true end from TaskCategory tc where tc.id = :id")

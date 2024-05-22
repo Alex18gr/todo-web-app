@@ -52,8 +52,8 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 
     @Override
     public TaskCategoryDTO updateTaskCategory(Long id, TaskCategoryDTO taskCategoryDTO) {
-        // check if the name of the update task already exists
-        if (taskCategoryRepository.existsByName(taskCategoryDTO.getName())) {
+        // check if the name of the update task already exists in different task category
+        if (taskCategoryRepository.existsByNameAndIdNot(taskCategoryDTO.getName(), id)) {
             throw new TaskCategoryAlreadyExistsException(taskCategoryDTO.getName());
         }
         return taskCategoryMapper.toTaskCategoryDTO(
